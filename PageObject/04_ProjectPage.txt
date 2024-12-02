@@ -1,0 +1,87 @@
+
+#******************** Settings ************************
+
+*** Settings ***
+
+Documentation	Verifying Project functionality. 
+				GRUD operation: Create Project Test scenario with valid and invalid inputs, Delete Project test scenario
+
+
+Pre Condition	1. Open browser 
+				2. User must be able Log in with existing credentials
+				3. Navigate to URL https://gitlab.com/projects/new
+				
+Post Condition	1. Test cases have been executed and documented
+                2. Validation of 'Project' creation and deletion
+                
+Tags			Project, TS-3-Project
+
+#******************* Common Variables ********************
+
+*** Variables ***
+
+# NOTE: Please Remove your login credential before uploading Assignments
+
+Registration field variables
+
+Project name = ProjectName
+Project URL = gitlab.com/AAA/
+Project slug = Slug
+Visibility Level = Private
+Project Configuration = none
+
+
+#******************** Test Cases *************************
+
+*** Test Cases ***
+
+# Positive Tests
+
+TC-PR-01 Validate creation of blank project
+	Navigate to Projects page
+	Select 'Create blank project'
+	Input Project name ProjectName
+	Input Project slug ProjectSlug
+	Select Visibility Level VisibilityLevel
+	Select Project configuration ProjectConfiguration
+ER: Verify that message is showing "Project 'my-project' was succesfully created"
+
+TC-PR-02 Validate creation of Project from template
+	Navigate to Projects page
+	Select 'Create from template' 
+	Select Page/Plain HTML 'Use template'
+	Input Project name ProjectName
+	Input Project slug ProjectSlug
+	Select Visibility Level VisibilityLevel
+ER: Verify that message is showing "The project was succesfully imported
+	
+TC-PR-03 Validate deletion of the Personal project
+	Navigate to 'Personal projects' page
+	Select project for deletion
+	Select 'Project settings'
+	Select 'Advanced'
+	Select 'Delete project'
+	Input Project URL to confirm
+	Select 'Yes, delete project'
+ER: Verify that message is showing Project 'ProjectName' is deleted
+
+TC-PR-04 Validate edit name of the Personal project
+	Navigate to 'Personal projects' page
+	Select project to edit
+	Select 'Project settings'
+	Input edited name for 'Project name'
+	Select 'Save changes'
+ER: Verify that Project is shown with edited name in 'Projects'
+
+# Negative Test
+
+TC-PR-05 Validate creation of blank Project with existing ProjectName
+	Navigate to Projects page
+	Select 'Create blank project'
+	Input Project name existing ProjectName
+	Input Project slug ProjectSlug
+	Select Visibility Level VisibilityLevel
+	Select Project configuration ProjectConfiguration
+ER: Verify that message is showing "Name has already been taken"
+
+

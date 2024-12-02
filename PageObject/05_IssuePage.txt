@@ -1,0 +1,81 @@
+
+#******************** Settings ************************
+
+*** Settings ***
+Documentation	Issue Test scenario. 
+				CRUD Operation: Create Issue test scenario with valid and invalid inputs
+				Update Issue
+
+# TODO: Write Precondition and Postcondition, Tags 
+
+Pre Condition	1. Open browser 
+				2. User must be able Log in with existing credentials
+				3. Project must have been created
+				4. Navigate to URL https://gitlab.com/[]/test1/-/issues
+
+Post Condition	1. Test cases have been executed and documented
+				2. Validation of 'Issue' creation, update and deletion
+Tags			Issue, TS-4-Issue
+
+#******************* Common Variables ********************
+
+
+*** Variables ***
+
+# NOTE: Please Remove your login credential before uploading Assignments
+
+Project name = ProjectName
+Project URL = gitlab.com/AAA
+Issue name = IssueName
+
+
+#******************** Test Cases *************************
+
+*** Test Case ***
+
+# TODO: Write Positive Test Cases and Test Process steps
+
+# Positive Tests
+
+TC-IS-01 Validate creation of Issue for existing project
+	Navigate to Issues page
+	Select 'New issue'
+	Input New issue title IssueTitle
+	Select Type IssueType
+	Select 'Create issue'
+ER: Verify that message is showing "Issue created by AAA"
+ER: Verify URL is directed to new issue
+
+TC-IS-02 Validate updating existing Issue
+	Navigate to Issues page
+	Select existing Issue
+	Select 'Edit'
+	Update Issue title with new name
+	Select 'Save changes'
+ER: Verify that Issue is shown with edited name in 'Issues'
+ER: Verify URL is directed to new issue
+
+TC-IS-03 Validate creating Issue with previously used name
+	Navigate to Issues page
+	Select 'New issue'
+	Input New issue title IssueTitle with previously used name
+	Select 'Create issue'
+ER: Verify that message is showing "Issue created by AAA"
+ER: Verify URL is directed to new issue
+
+TC-IS-04 Validate deletion of an issue
+	Navigate to Issues page
+	Select existing issue
+	Select "dots"
+	Select 'Delete issue'
+	Verify warning notification will appear, select 'Delete issue'
+ER: Verify that message is showing "The issue was succesfully deleted"
+ER: Verify URL is directed to new issue
+
+TC-IS-05 Validate creation of Issue with existing issue name
+	Navigate to Issues page
+	Select 'New issue'
+	Input New issue title IssueTitle with existing Issue name
+	Select 'Create issue'
+ER: Verify that message is showing "Issue created by AAA"
+ER: Verify URL is directed to new issue

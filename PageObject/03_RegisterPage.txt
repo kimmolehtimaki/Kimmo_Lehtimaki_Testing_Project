@@ -1,0 +1,101 @@
+
+#******************** Settings ************************
+
+*** Settings ***
+
+
+Documentation	Verifying the register account functionality. Register Test scenario with new and existing credentials
+
+Pre Condition	Open browser and navigate to gitlab.com
+Post Condition	1. Test cases has been executed and documented
+                2. Validation test user Registration functionality
+Tags			Register, TS-2-Register
+
+#******************* Common Variables ********************
+
+*** Variables ***
+
+# NOTE: Please Remove your login credential before uploading Assignments
+
+Registration field variables
+
+LoginUrl = https://gitlab.com/users/sign_up
+FirstName = John
+LastName = Doe
+UserName = AAA
+Email = john.doe@mail.com
+invalid email = john.doe@
+Password = ********
+invalid password = ***
+
+
+
+#******************** Test Cases *************************
+
+*** Test Cases ***
+
+
+# Positive Test 
+
+TC-RE-01 Validate registering user with valid (new) username and password by providing all the mandatory fields
+	Navigate to sign-up page
+	Input First name FirstName
+	Input Last name LastName
+	Input Username UserName
+	Input Email Email
+	Input Password Password
+	Don't select "contact" checkbox
+	Input received verification code to verify email
+ER: Verify Username field displays message 'Username is available'
+	Verify user is redirected to 'Verify email address' page
+	Verify redirection to 'Welcome to Gitlab' Page
+
+
+# Negative Tests
+
+TC-RE-02 Validate proper notification messages are displayed for mandatory fields
+when you don't provide any fields in the 'Register' page
+	Navigate to sign-up page
+	Don't enter anything into the fields
+	Don't select "contact" checkbox
+ER: Verify each field displays following warning messages
+		1.First name 'This field is required'
+		2.Last name 'This field is required'
+		3.Username 'Username is too short (minimum is 2 characters)
+		4.Email 'Please provide a valid email address'
+		5.Password 'Minimum length is 8 characters'
+
+TC-RE-03 Validate registering an account by providing an invalid email address
+	Navigate to sign-up page
+	Input First name FirstName
+	Input Last name LastName
+	Input Username UserName
+	Input Email invalid Email
+	Input Password Password
+	Don't select "contact" checkbox 
+ER: Verify Email field display proper warning message
+		'Please provide a valid email address'
+	
+TC-RE-04 Validate registering an account by providing existing username
+	Navigate to sign-up page
+	Input First name FirstName
+	Input Last name LastName
+	Input Username  existing UserName
+	Input Email Email
+	Input Password Password
+	Don't select "contact" checkbox
+ER: Verify Username displays proper warning message
+		'Username is already taken'
+
+TC-RE-05 Validate whether the Password field in the 'Register' page 
+is following Password Complexity Standards
+	Navigate to sign-up page
+	Input First name FirstName
+	Input Last name LastName
+	Input Username  UserName
+	Input Email Email
+	Input Password Password not meeting required standards
+	Don't select "contact" checkbox
+ER: Verify Password field display proper warning message
+		'Minimum length is 8 characters'
+
